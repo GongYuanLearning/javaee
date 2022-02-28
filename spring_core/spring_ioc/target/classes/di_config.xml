@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <bean id="book1" class="com.gy.entity.Book">
+        <constructor-arg name="isbn" value="123451" />
+        <constructor-arg name="name" value="JavaEE实战" />
+        <constructor-arg name="price" value="100" />
+        <constructor-arg name="author" value="张三" />
+    </bean>
+    <bean id="book2" class="com.gy.entity.Book">
+        <constructor-arg name="isbn" value="123452" />
+        <constructor-arg name="name" value="MySQL实战" />
+        <constructor-arg name="price" value="50" />
+        <constructor-arg name="author" value="李四" />
+    </bean>
+    <util:map id="books">
+        <entry key="123451" value-ref="book1" />
+        <entry key="123452" value-ref="book2" />
+    </util:map>
+    <bean id="bookDao" class="com.gy.service.impl.BookDaoImpl">
+        <constructor-arg name="books" ref="books" />
+    </bean>
+    <bean id="bookService" class="com.gy.service.impl.BookServiceImpl">
+        <!-- 配置构造方法参数所需要的组件 -->
+        <!-- ref指向其他组件 -->
+        <!-- <constructor-arg index="0" name="dao" ref="bookDao"></constructor-arg>
+        <constructor-arg index="1" name="username" value="zhijie"></constructor-arg> -->
+        <property name="dao" ref="bookDao"></property>
+        <property name="username" value="zhijie"></property>
+    </bean>
+    <util:list id="users">
+        <value>user1</value>
+        <value>user2</value>
+    </util:list>
+</beans>

@@ -8,6 +8,7 @@ import com.gy.entity.Book;
 /**
  * 实现业务逻辑(添加，修改，删除书)的服务类
  */
+@Data
 public class BookServiceImpl implements BookService {
     private BookDao dao;
     private String username;

@@ -26,8 +26,10 @@
     <bean id="bookService" class="com.gy.service.impl.BookServiceImpl">
         <!-- 配置构造方法参数所需要的组件 -->
         <!-- ref指向其他组件 -->
-        <constructor-arg index="0" name="dao" ref="bookDao"></constructor-arg>
-        <constructor-arg index="1" name="username" value="zhijie"></constructor-arg>
+        <!-- <constructor-arg index="0" name="dao" ref="bookDao"></constructor-arg>
+        <constructor-arg index="1" name="username" value="zhijie"></constructor-arg> -->
+        <property name="dao" ref="bookDao"></property>
+        <property name="username" value="zhijie"></property>
     </bean>
     <util:list id="users">
         <value>user1</value>
