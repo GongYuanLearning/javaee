@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gy.dao.PersonDao">
+    <resultMap id="personMap" type="Person">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="age" column="age" />
+        <!-- column指定外键列，select指定的是IdCardMapper.xml中的getById节点 -->
+        <association property="card"
+                     column="idcard_id"
+                     javaType="IdCard"
+                     select="com.gy.dao.IdCardDao.getById" />
+    </resultMap>
+    <select id="getById" parameterType="long" resultMap="personMap">
+        select * from person where id=#{id}
+    </select>
+    <resultMap id="personMap1" type="Person">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="age" column="age" />
+        <!-- column指定外键列，select指定的是IdCardMapper.xml中的getById节点 -->
+        <association property="card"
+                     javaType="IdCard">
+            <id property="id" column="idcard_id" />
+            <result property="code" column="idcard_code" />
+        </association>
+    </resultMap>
+    <select id="getByIdWithOneQuery" parameterType="long" resultMap="personMap1">
+        select p.*, c.code as idcard_code from person p, idcard c where p.id=#{id} and p.idcard_id=c.id
+    </select>
+</mapper>

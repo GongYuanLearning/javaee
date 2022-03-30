@@ -1,0 +1,17 @@
+
+### 模拟注册表单提交
+POST http://localhost:8080/spring_mvc_controller_war/register/handle
+Content-Type: application/x-www-form-urlencoded
+
+username=content&pwd=123&email=testtest@test.com&phone=1334
+
+### 发起post请求，数据类型是application/json
+POST http://localhost:8080/spring_mvc_controller_war/register/handle
+Content-Type: application/json
+
+{
+  "username": "test2",
+  "pwd": "1234",
+  "email": "12Test@test.com",
+  "phone": "12334578912"
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gy.dao.BookDao">
+    <!-- keyProperty: 自动生成id回填时，对应的成员变量. useGeneratedKeys必须为true-->
+<!--    <insert id="add" parameterType="com.gy.entity.Book"
+            keyProperty="id"
+            keyColumn="ID"
+            useGeneratedKeys="false">
+        insert into BOOK(isbn, name, price, count)
+            values(#{isbn}, #{name}, #{price}, #{count})
+    </insert>-->
+
+    <!-- 提供主键插入数据 -->
+    <!-- insert节点是用来映射插入数据的方法，对应的是BookDao.add -->
+    <insert id="add" parameterType="com.gy.entity.Book">
+        <selectKey
+            keyProperty="id"
+            resultType="int"
+            order="BEFORE">
+            select if(max(id) is null, 1, max(id)+1) as newId from BOOK
+        </selectKey>
+        insert into BOOK(id, isbn, name, price, count) values(#{id}, #{isbn}, #{name}, #{price}, #{count})
+    </insert>
+
+    <resultMap id="bookMap" type="Book"><!-- Book是别名 -->
+        <id column="ID" property="id" /><!--主键列的映射 -->
+        <result column="ISBN" property="isbn" /><!--  基本列的映射 -->
+        <result column="NAME" property="name" />
+        <result column="PRICE" property="price" />
+        <result column="COUNT" property="count" />
+    </resultMap>
+
+    <select id="getById"
+            parameterType="long"
+            resultMap="bookMap">
+        select * from BOOK where id=#{id}
+    </select>
+    <select id="getByIds"
+            parameterType="list"
+            resultMap="bookMap">
+        select * from BOOK where id in
+        <foreach item="item" collection="list"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+<!--
+    <select id="getById" parameterType="long"
+            resultType="Book">
+        select * from BOOK where id=#{id}
+    </select>-->
+
+    <!--
+    isbn -> 123
+    name -> Java
+    -->
+    <sql id="selectBook">name like concat('%', #{name}, '%')</sql>
+    <select id="queryWithMap"
+            parameterType="map"
+            resultType="Book">
+        select * from BOOK
+        <!--<trim prefix="where" prefixOverrides="and|or">
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="minPrice > 0">
+                and price >= #{minPrice}
+            </if>
+            <if test="maxPrice > 0">
+                and price &lt;= #{maxPrice}
+            </if>
+        </trim>-->
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="minPrice > 0">
+                and price >= #{minPrice}
+            </if>
+            <if test="maxPrice > 0">
+                and price &lt;= #{maxPrice}
+            </if>
+        </where>
+    </select>
+
+    <select id="query"
+            parameterType="BookCriteria"
+            resultType="Book">
+        <bind name="name_concat" value="'%' + name + '%'" />
+        select * from BOOK where 1=1
+        <if test="name != null and name != ''">
+            and name like #{name_concat}
+        </if>
+        <if test="minPrice > 0">
+            and price >= #{minPrice}
+        </if>
+        <choose>
+            <!-- choose下不管有多少个when元素，只选择其中第一个符合条件的生成sql -->
+            <when test="maxPrice > 0">
+                and price &lt;= #{maxPrice}
+            </when>
+            <otherwise>
+                and price &lt;= 80
+            </otherwise>
+        </choose>
+        <!--<if test="name != null and name != ''">
+            and name like concat('%', #{name}, '%')
+        </if>
+        <if test="minPrice > 0">
+            and price >= #{minPrice}
+        </if>
+        <if test="maxPrice > 0">
+            and price &lt;= #{maxPrice}
+        </if>-->
+    </select>
+    <update id="update" parameterType="com.gy.entity.Book">
+        update BOOK
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="count > 0">
+                count = #{count}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        delete from BOOK where id=#{id}
+    </delete>
+    <delete id="deleteAll">
+        delete from BOOK
+    </delete>
+</mapper>

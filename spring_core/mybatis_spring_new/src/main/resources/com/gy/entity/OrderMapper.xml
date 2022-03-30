@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gy.dao.OrderDao">
+    <resultMap id="orderMap" type="Order">
+        <id property="id" column="id" />
+        <result property="ordersn" column="order_sn" />
+    </resultMap>
+    <select id="getByUserId" parameterType="long"
+            resultMap="orderMap">
+        select * from orders where user_id=#{userId}
+    </select>
+    <resultMap id="orderMap1" type="Order">
+        <id property="id" column="orderId" />
+        <result property="ordersn" column="order_sn" />
+        <collection
+                property="products"
+                ofType="Product">
+            <id property="id" column="id" />
+            <result property="name" column="name" />
+            <result property="price" column="price" />
+        </collection>
+    </resultMap>
+    <select id="getById" parameterType="long"
+            resultMap="orderMap1">
+        select o.id as orderId, o.order_sn, p.* from orders o, product p, orders_detail d
+        where o.id=#{id} and o.id=d.orders_id
+          and p.id=d.product_id
+    </select>
+</mapper>

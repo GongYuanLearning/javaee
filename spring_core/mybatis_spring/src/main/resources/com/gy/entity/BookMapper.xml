@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gy.dao.BookDao">
+    <!-- 提供主键插入数据 -->
+    <!-- insert节点是用来映射插入数据的方法，对应的是BookDao.add -->
+    <insert id="add" parameterType="com.gy.entity.Book">
+        <selectKey keyProperty="id" resultType="int">
+            select if(max(id) is null, 1, max(id)+1) as newId from BOOK
+        </selectKey>
+        insert into BOOK(id, isbn, name, price, count) values(#{id}, #{isbn}, #{name}, #{price}, #{count})
+    </insert>
+
+    <resultMap id="bookMap" type="com.gy.entity.Book"><!-- Book是别名 -->
+        <id column="ID" property="id" /><!--主键列的映射 -->
+        <result column="ISBN" property="isbn" /><!--  基本列的映射 -->
+        <result column="NAME" property="name" />
+        <result column="PRICE" property="price" />
+        <result column="COUNT" property="count" />
+    </resultMap>
+
+    <select id="getById" parameterType="long" resultMap="bookMap">
+        select * from BOOK where id=#{id}
+    </select>
+</mapper>

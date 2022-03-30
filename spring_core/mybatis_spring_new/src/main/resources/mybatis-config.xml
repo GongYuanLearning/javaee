@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 配置环境 -->
+    <!--<environments default="dev">
+        <environment id="dev">
+            &lt;!&ndash; 使用JDBC的事务管理 &ndash;&gt;
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED"> &lt;!&ndash; 连接池 &ndash;&gt;
+                &lt;!&ndash; MySQL数据库驱动 &ndash;&gt;
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                &lt;!&ndash; 连接数据库的URL &ndash;&gt;
+                <property name="url" value="jdbc:mysql://localhost:3306/spring?characterEncoding=utf8&amp;serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="password"/>
+            </dataSource>
+        </environment>
+    </environments>-->
+    <typeAliases>
+        <!--        <typeAlias type="com.gy.entity.Book" alias="Book" />-->
+        <package name="com.gy.entity"/> <!-- package指定某个包下面的类，可以不使用包名 -->
+    </typeAliases>
+    <mappers>
+        <!-- 映射文件的位置 -->
+        <mapper resource="com/gy/entity/BookMapper.xml"/>
+        <mapper resource="com/gy/entity/PersonMapper.xml"/>
+        <mapper resource="com/gy/entity/IdCardMapper.xml"/>
+        <mapper resource="com/gy/entity/UserMapper.xml"/>
+        <mapper resource="com/gy/entity/OrderMapper.xml"/>
+        <!-- 使用映射器接口实现类的完全限定类名 -->
+<!--        <mapper class="org.mybatis.builder.AuthorMapper"/>-->
+        <!-- 将包内的映射器接口实现全部注册为映射器 -->
+<!--        <package name="com.gy.entity"/>-->
+    </mappers>
+</configuration>

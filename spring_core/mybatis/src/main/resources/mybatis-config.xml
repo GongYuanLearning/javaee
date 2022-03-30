@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 配置环境 -->
+    <environments default="dev">
+        <environment id="dev">
+            <!-- 使用JDBC的事务管理 -->
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED"> <!-- 连接池 -->
+                <!-- MySQL数据库驱动 -->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <!-- 连接数据库的URL -->
+                <property name="url" value="jdbc:mysql://localhost:3306/spring?characterEncoding=utf8&amp;serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="password"/>
+            </dataSource>
+        </environment>
+    </environments>
+<!--    <typeAliases>-->
+<!--        &lt;!&ndash;        <typeAlias type="com.gy.model.Book" alias="Book" />&ndash;&gt;-->
+<!--        <package name="com.gy.model"/>-->
+<!--    </typeAliases>-->
+    <mappers>
+        <!-- 映射文件的位置 -->
+        <mapper resource="com/gy/entity/BookMapper.xml"/>
+    </mappers>
+</configuration>
