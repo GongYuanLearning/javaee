@@ -1,0 +1,9 @@
+
+###
+GET http://localhost:8080/spring_mvc_controller_war/register/register
+
+### 模拟注册表单提交
+POST http://localhost:8080/spring_mvc_controller_war/register/handle
+Content-Type: application/x-www-form-urlencoded
+
+username=content&pwd=123

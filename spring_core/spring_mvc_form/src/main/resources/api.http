@@ -6,20 +6,30 @@ GET http://localhost:8080/spring_mvc_controller_war/register/register
 POST http://localhost:8080/spring_mvc_controller_war/register/handle?username=lzj&pwd=xxx
 
 ### 模拟注册表单提交
-POST http://localhost:8080/spring_mvc_controller_war/register/handle
+POST http://localhost:8080/spring_mvc_form_war/register/handle
 Content-Type: application/x-www-form-urlencoded
 
-username=content&pwd=123
+username=content&pwd=123&birthday=2000-01-01&balance=200d
 
 ###
 GET http://localhost:8080/spring_mvc_controller_war/register/register?username=lzj
 pwd: xxx
 
 ###
-POST http://localhost:8080/spring_mvc_controller_war/register/handle/json
+POST http://localhost:8080/spring_mvc_form_war/register/handle/json
 Content-Type: application/json
 
 {
   "username": "test",
   "pwd": "123"
 }
+
+###
+POST http://localhost:8080/spring_mvc_form_war/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "pwd": "123456"
+}
+

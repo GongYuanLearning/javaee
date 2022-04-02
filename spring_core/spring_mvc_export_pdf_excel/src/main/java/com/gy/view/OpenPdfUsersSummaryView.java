@@ -40,7 +40,7 @@ public class OpenPdfUsersSummaryView extends AbstractPdfView {
     }
 
     private void addTableHeader(Table table) throws BadElementException {
-        table.addCell("Full Name");
+        table.addCell("Username");
         table.addCell("Phone");
     }
 }

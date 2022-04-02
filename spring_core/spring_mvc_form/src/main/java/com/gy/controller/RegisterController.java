@@ -1,16 +1,20 @@
 package com.gy.controller;
 
 import com.gy.dto.RegisterDto;
+import com.gy.editor.DoubleEditor;
 import com.gy.model.User;
 import com.gy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -22,7 +26,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,5 +104,14 @@ public class RegisterController {
         User user = userService.add(registerDto);
         model.addAttribute("username", user.getUsername());
         return "login";
+    }
+
+    @InitBinder
+    public void binder(WebDataBinder binder) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        CustomDateEditor dateEditor = new CustomDateEditor(df, true);
+        binder.registerCustomEditor(Date.class, dateEditor);
+        binder.registerCustomEditor(Double.class, new DoubleEditor());
+        binder.setFieldDefaultPrefix("u.");
     }
 }

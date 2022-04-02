@@ -17,4 +17,6 @@ public interface UserDao {
     void add(User user);
     @Select("select * from user where id=#{id}")
     User getById(long id);
+    @Select("SELECT * from user WHERE username=#{username}")
+    User findByUsername(String username);
 }

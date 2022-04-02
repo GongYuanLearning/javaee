@@ -1,11 +1,6 @@
-<%@ page import="java.util.Map" %><%--
-  Created by IntelliJ IDEA.
-  User: lzj
-  Date: 2021/11/15
-  Time: 17:05
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" scope="page" />
 <%
     String username = (String) session.getAttribute("username");
     if(null != username) {
@@ -13,16 +8,39 @@
     }
 %>
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>天天生鲜-登录</title>
-    <link rel="stylesheet" type="text/css" href="css/reset.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/css/main.css">
+    <script type="text/javascript" src="${ctx}/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $('form').submit((event) => {
+                event.preventDefault();
+                $.ajax({
+                    url: '${ctx}/login',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        username: $('input[name="username"]').val(),
+                        pwd: $('input[name="pwd"]').val(),
+                    }),
+                    success: () => {
+                        window.location.url = "${ctx}/index";
+                    },
+                    error: () => {
+                    }
+                });
+            });
+        })
+    </script>
 </head>
 <body>
 <div class="login_top clearfix">
-    <a href="index.html" class="login_logo"><img src="images/logo02.png"></a>
+    <a href="index.html" class="login_logo"><img src="${ctx}/images/logo02.png"></a>
 </div>
 
 <div class="login_form_bg">
@@ -35,7 +53,7 @@
                 <a href="#">立即注册</a>
             </div>
             <div class="form_input">
-                <form action="login" method="post">
+                <form action="${ctx}/login" method="post">
                     <input type="text" name="username" value="${username}" class="name_input" placeholder="请输入用户名">
                     <div class="user_error">输入错误</div>
                     <input type="password" name="pwd" class="pass_input" placeholder="请输入密码">
@@ -45,7 +63,7 @@
                         <label>一周之内免登陆</label>
                         <a href="#">忘记密码</a>
                     </div>
-                    <input type="submit" name="" value="登录" class="input_submit" onclick="validateForm">
+                    <input type="submit" name="" value="登录" class="input_submit">
                 </form>
             </div>
         </div>
@@ -67,9 +85,4 @@
 </div>
 
 </body>
-<script type="text/javascript">
-    const validateForm = function(event) {
-
-    }
-</script>
 </html>

@@ -1,6 +1,7 @@
 package com.gy.service.impl;
 
 import com.gy.dao.UserDao;
+import com.gy.dto.LoginDto;
 import com.gy.dto.RegisterDto;
 import com.gy.model.User;
 import com.gy.service.UserService;
@@ -27,6 +28,21 @@ public class UserServiceImpl implements UserService {
         userDao.add(user);
         return user;
         //return userDao.getById(user.getId());
+    }
+
+
+    @Override
+    public User login(LoginDto loginDto) {
+        User user = this.userDao.findByUsername(loginDto.getUsername());
+        if(null == user) {
+            throw new IllegalArgumentException(
+                    String.format("用户：%s不存在！", loginDto.getUsername()));
+        }
+        if(!this.passwordEncryptor.checkPassword(loginDto.getPwd(), user.getPwdHash())) {
+            throw new IllegalArgumentException(
+                    String.format("用户：%s密码错误！", loginDto.getUsername()));
+        }
+        return user;
     }
 
     @Override

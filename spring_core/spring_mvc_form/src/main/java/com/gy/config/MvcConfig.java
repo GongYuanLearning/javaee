@@ -52,6 +52,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         // /login -> login
+        // 如果有控制器对/login进行处理，该设置无效
         registry.addViewController("/login").setViewName("login");
     }
 }

@@ -2,9 +2,13 @@ package com.gy.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class RegisterDto {
     private String username;
+    private Date birthday;
+    private Double balance;
     private String pwd;
     private String cpwd;
     private String email;

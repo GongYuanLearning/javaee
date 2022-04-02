@@ -45,7 +45,8 @@ public class UserController {
     @RequestMapping(value = "/export/pdf",
             method = RequestMethod.GET)
     public String exportPdf(Model model) {
-        return "usersAsPdf";
+
+        return "usersAsPdf"; // ac.getBean("usersAsPdf")
     }
 
     @RequestMapping(value = "/export/execl",
